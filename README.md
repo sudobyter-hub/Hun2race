@@ -1,4 +1,6 @@
 # Hun2race
+
+![](hun2race.gif)
 Hun2race is automating reports tool for bug hunters and penetration testers 
 the tools uses GOOGLE BARD to bring up responses for a faster reporet generation 
 with the help of LateX for creating templates to generate PDFs 
