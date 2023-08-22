@@ -8,13 +8,13 @@ Note : this is a beta version of the tool
 
 # Usage 
 
-1. clone the report `git clone ... `
+1. clone the report `git clone https://github.com/sudobyter-hub/Hun2race.git`
 2. install python requirments `pip install -r requirements.txt`
 3. run the tool `python3 hun2race.py -f bug_bounty -v idor -t attacker.com ` 
 
 
 # Contibutions 
-feel free to contact me 
+Feel free to contact me 
 at sudobyter@gmail.com 
 for any suggestions, developement or issues 
 
