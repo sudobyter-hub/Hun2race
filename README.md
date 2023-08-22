@@ -1,2 +1,20 @@
 # Hun2race
 Hun2race is automating reports tool for bug hunters and penetration testers 
+the tools uses GOOGLE BARD to bring up responses for a faster reporet generation 
+with the help of LateX for creating templates to generate PDFs 
+
+Note : this is a beta version of the tool 
+
+
+# Usage 
+
+1. clone the report `git clone ... `
+2. install python requirments `pip install -r requirements.txt`
+3. run the tool `python3 hun2race.py -f bug_bounty -v idor -t attacker.com ` 
+
+
+# Contibutions 
+feel free to contact me 
+at sudobyter@gmail.com 
+for any suggestions, developement or issues 
+
