@@ -12,6 +12,12 @@ Note : this is a beta version of the tool
 2. install python requirments `pip install -r requirements.txt`
 3. run the tool `python3 hun2race.py -f bug_bounty -v idor -t attacker.com ` 
 
+# Google BARD key 
+1. Open google bard
+2. Sign in to your account
+3. View cookies and copy the value of `__Secure-1PSID`
+4. Insert the values in hun2race.py
+
 
 # Contibutions 
 Feel free to contact me 
