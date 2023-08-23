@@ -26,7 +26,7 @@ Usage :
         -t , target site 
         
         example : 
-        python3 hun2race.py -f bugbounty -v IDOR -t attacker.com
+        python3 hun2race.py -f bugbounty -v IDOR -t attacker.com -P "Found IDOR on the following domain etc..." 
 
       ''')
 
@@ -89,16 +89,17 @@ def main():
     parser.add_argument('-f', '--format', choices=['bug_bounty', 'pentesting'], required=True, help='Report format (bug_bounty or pentesting)')
     parser.add_argument('-v', '--vulnerability', required=True, help='Type of vulnerability')
     parser.add_argument('-t', '--target', required=True, help='Host where the vulnerability was found')
+    parser.add_argument('-P', '--poc', required=True, help='PoC of the bug')
 
     args = parser.parse_args()
 
     vulnerability_type = args.vulnerability
     target = args.target
+    proof_of_concept = args.poc
 
     print(f"Generating {args.format} report for {vulnerability_type} on {target}...")
 
     vulnerability_desc = f"describe the following bug {vulnerability_type} with details to technical and non technical people"
-    proof_of_concept = input("Enter proof of concept: ")
     impact_description = f"what is the impact of this {vulnerability_type} and how it might effect the company"
     suggestions = f"what do you suggest to fix this {vulnerability_type} write full details"
 
