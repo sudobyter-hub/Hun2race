@@ -8,7 +8,7 @@ with the help of LateX for creating templates to generate PDFs
 Note : this is a beta version of the tool 
 
 
-# Usage 
+# Guide  
 
 1. Clone the report `git clone https://github.com/sudobyter-hub/Hun2race.git`
 2. Install python requirments `pip install -r requirements.txt`
