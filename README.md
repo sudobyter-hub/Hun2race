@@ -15,6 +15,7 @@ Note : this is a beta version of the tool
 3. Edit `hun2race.py` file and change API Key, follow instructions [Google BARD-API](#google-bard-key) 
 4. Make sure you have [Latex](#latex) installed in your machine ! 
 5. Run the tool `python3 hun2race.py -f bug_bounty -v idor -t attacker.com -P "your PoC inhere`
+6. You will find your report ready to SUBMIT in your DIRECTORY ! 
 
 
 
