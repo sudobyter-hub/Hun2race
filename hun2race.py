@@ -24,6 +24,7 @@ Usage :
         -f , report format (bugbounty, pentesting)
         -v , vulnerability type 
         -t , target site 
+        -P , PoC 
         
         example : 
         python3 hun2race.py -f bugbounty -v IDOR -t attacker.com -P "Found IDOR on the following domain etc..." 
