@@ -12,7 +12,7 @@ Note : this is a beta version of the tool
 
 1. Clone the report `git clone https://github.com/sudobyter-hub/Hun2race.git`
 2. Install python requirments `pip install -r requirements.txt`
-3. Make sure you have [Latex](#LaTeX) installed in your machine ! 
+3. Make sure you have [Latex](#latex) installed in your machine ! 
 4. Run the tool `python3 hun2race.py -f bug_bounty -v idor -t attacker.com -P "your PoC inhere`
 
 
