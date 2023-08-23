@@ -10,7 +10,7 @@ Note : this is a beta version of the tool
 
 # Guide  
 
-1. Clone the report `git clone https://github.com/sudobyter-hub/Hun2race.git`
+1. Clone the repo `git clone https://github.com/sudobyter-hub/Hun2race.git`
 2. Install python requirments `pip install -r requirements.txt`
 3. Edit `hun2race.py` file and change API Key, follow instructions [Google BARD-API](#google-bard-key) 
 4. Make sure you have [Latex](#latex) installed in your machine ! 
