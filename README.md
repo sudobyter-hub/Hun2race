@@ -12,8 +12,9 @@ Note : this is a beta version of the tool
 
 1. Clone the report `git clone https://github.com/sudobyter-hub/Hun2race.git`
 2. Install python requirments `pip install -r requirements.txt`
-3. Make sure you have [Latex](#latex) installed in your machine ! 
-4. Run the tool `python3 hun2race.py -f bug_bounty -v idor -t attacker.com -P "your PoC inhere`
+3. Edit `hun2race.py` file and change API Key, follow instructions [Google BARD-API](#google-bard-key) 
+4. Make sure you have [Latex](#latex) installed in your machine ! 
+5. Run the tool `python3 hun2race.py -f bug_bounty -v idor -t attacker.com -P "your PoC inhere`
 
 
 
@@ -21,7 +22,7 @@ Note : this is a beta version of the tool
 1. Open google bard
 2. Sign in to your account
 3. View cookies and copy the value of `__Secure-1PSID`
-4. Insert the values in hun2race.py
+4. Insert the value in hun2race.py
 
 
 # LaTeX
