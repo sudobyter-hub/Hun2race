@@ -1,38 +1,31 @@
 import argparse
 import subprocess
-import openai
 from bardapi import Bard
 import os
-import requests
+import openai  
 
 # Bard API KEY
-os.environ["_BARD_API_KEY"] = "INSERT YOU BARD KEY (__Secure-1PSID)"
+os.environ["_BARD_API_KEY"] = "Your Bard API Key"
+# Set OpenAI API Key
+openai.api_key = 'Your OPENAI API KEY'
 
-
+# ASCII Art & Help Text
 print('''
-
-
-
 ▒█░▒█ ▒█░▒█ ▒█▄░▒█ █▀█ ▒█▀▀█ ░█▀▀█ ▒█▀▀█ ▒█▀▀▀ 
 ▒█▀▀█ ▒█░▒█ ▒█▒█▒█ ░▄▀ ▒█▄▄▀ ▒█▄▄█ ▒█░░░ ▒█▀▀▀ 
 ▒█░▒█ ░▀▄▄▀ ▒█░░▀█ █▄▄ ▒█░▒█ ▒█░▒█ ▒█▄▄█ ▒█▄▄▄
-
-
 By : sudobyter 
-
 Usage : 
         -f , report format (bugbounty, pentesting)
         -v , vulnerability type 
         -t , target site 
-        -P , PoC 
-        
+        -P , PoC of the bug
+        -e , choice of description engine (bard or chatgpt)
         example : 
-        python3 hun2race.py -f bugbounty -v IDOR -t attacker.com -P "Found IDOR on the following domain etc..." 
-
+        python3 hun2race.py -f bugbounty -v IDOR -t attacker.com -P "Found IDOR on the following domain etc..." -e bard/chatgpt
       ''')
 
-
-
+# LaTeX Template
 BUG_BOUNTY_TEMPLATE = r"""
 \documentclass{{article}}
 \begin{{document}}
@@ -40,30 +33,30 @@ BUG_BOUNTY_TEMPLATE = r"""
 \author{{Security Researcher}}
 \date{{\today}}
 \maketitle
-
 \newpage 
-
 \section{{Summary}}
 Format: Bug Bounty \\
 Vulnerability Type: {vulnerability} \\
 Host: {host}
-
 \newpage 
-
 \section{{Vulnerability Description}}
 {vulnerability_desc}
-
 \section{{Proof of Concept}}
 {proof_of_concept}
-
 \section{{Impact}}
 {impact_description}
-
 \section{{Recommendations}}
 {suggestions}
-
 \end{{document}}
 """
+
+def get_description_from_bard(prompt):
+    bard_response = Bard().get_answer(str(prompt))
+    return bard_response.get('content')
+
+def get_description_from_chatgpt(prompt):
+    response = openai.Completion.create(model="text-davinci-002", prompt=prompt, max_tokens=500)
+    return response.choices[0].text.strip()
 
 def generate_latex_report(format_type, vulnerability_type, target, vulnerability_desc, proof_of_concept, impact_description, suggestions):
     if format_type == 'bug_bounty':
@@ -81,45 +74,31 @@ def generate_latex_report(format_type, vulnerability_type, target, vulnerability
     )
     return report
 
-
-
-
-
 def main():
     parser = argparse.ArgumentParser(description='Security Research Report Generator')
-    parser.add_argument('-f', '--format', choices=['bug_bounty', 'pentesting'], required=True, help='Report format (bug_bounty or pentesting)')
+    parser.add_argument('-f', '--format', choices=['bug_bounty', 'pentesting'], required=True, help='Report format')
     parser.add_argument('-v', '--vulnerability', required=True, help='Type of vulnerability')
     parser.add_argument('-t', '--target', required=True, help='Host where the vulnerability was found')
     parser.add_argument('-P', '--poc', required=True, help='PoC of the bug')
-
+    parser.add_argument('-e', '--engine', choices=['bard', 'chatgpt'], required=True, help='Choice of description engine')
     args = parser.parse_args()
 
-    vulnerability_type = args.vulnerability
-    target = args.target
-    proof_of_concept = args.poc
+    # Generate the prompts
+    vulnerability_desc_prompt = f"describe the following bug {args.vulnerability} with details to technical and non technical people"
+    impact_description_prompt = f"what is the impact of this {args.vulnerability} and how it might affect the company"
+    suggestions_prompt = f"what do you suggest to fix this {args.vulnerability} write full details"
 
-    print(f"Generating {args.format} report for {vulnerability_type} on {target}...")
+    # Use either bard or chatgpt based on the user's choice
+    if args.engine == 'bard':
+        vulnerability_desc = get_description_from_bard(vulnerability_desc_prompt)
+        impact_description = get_description_from_bard(impact_description_prompt)
+        suggestions = get_description_from_bard(suggestions_prompt)
+    elif args.engine == 'chatgpt':
+        vulnerability_desc = get_description_from_chatgpt(vulnerability_desc_prompt)
+        impact_description = get_description_from_chatgpt(impact_description_prompt)
+        suggestions = get_description_from_chatgpt(suggestions_prompt)
 
-    vulnerability_desc = f"describe the following bug {vulnerability_type} with details to technical and non technical people"
-    impact_description = f"what is the impact of this {vulnerability_type} and how it might effect the company"
-    suggestions = f"what do you suggest to fix this {vulnerability_type} write full details"
-
-    # Set the path where you want to save the downloaded image
-
-
-    bard_vuln_desc = Bard().get_answer(str(vulnerability_desc))
-
-    response_bard_vuln_desc = bard_vuln_desc.get('content')
-
-    bard_impact_desc = Bard().get_answer(str(impact_description))
-
-    response_bard_impact_desc = bard_impact_desc.get('content')
-
-    bard_suggestions = Bard().get_answer(str(suggestions))
-
-    response_bard_suggestions = bard_suggestions.get('content')
-
-    latex_report = generate_latex_report(args.format, vulnerability_type, target, response_bard_vuln_desc, proof_of_concept, response_bard_impact_desc, response_bard_suggestions)
+    latex_report = generate_latex_report(args.format, args.vulnerability, args.target, vulnerability_desc, args.poc, impact_description, suggestions)
 
     # Save the LaTeX report to a .tex file
     with open('security_report.tex', 'w') as f:
