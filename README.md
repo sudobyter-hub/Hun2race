@@ -1,49 +1,46 @@
 # Hun2race
 
-![](hun2race.gif)
-Hun2race is automating reports tool for bug hunters and penetration testers 
-the tools uses GOOGLE BARD to bring up responses for a faster reporet generation 
-with the help of LateX for creating templates to generate PDFs 
+Hun2race is an automated report generation tool designed for bug hunters and penetration testers. The tool utilizes GOOGLE BARD to produce responses, accelerating report creation. Additionally, it leverages LaTeX to create templates, enabling the generation of PDFs.
 
-Note : this is a beta version of the tool 
+Note: This tool is currently in its beta version.
 
+# Guide
 
-# Guide  
-
-1. Clone the repo `git clone https://github.com/sudobyter-hub/Hun2race.git`
-2. Install python requirments `pip install -r requirements.txt`
-3. Edit `hun2race.py` file and change API Key, follow instructions [Google BARD-API](#google-bard-key) 
-4. Make sure you have [Latex](#latex) installed in your machine ! 
-5. Run the tool `python3 hun2race.py -f bug_bounty -v idor -t attacker.com -P "your PoC inhere`
-6. You will find your report ready to SUBMIT in your DIRECTORY ! 
+- Clone the repo: git clone https://github.com/sudobyter-hub/Hun2race.git
+- Install Python requirements: pip install -r requirements.txt
+- Edit the hun2race.py file to replace the API Key. For guidance, refer to the Google BARD-API section.
+- Ensure LaTeX is installed on your machine.
+- Execute the tool: python3 hun2race.py -f bug_bounty -v idor -t attacker.com -P "Insert your PoC here"
+- Upon completion, you'll find the report, ready to be submitted, in your directory.
 
 
+# Google BARD key
 
-# Google BARD key 
-1. Open google bard
-2. Sign in to your account
-3. View cookies and copy the value of `__Secure-1PSID`
-4. Insert the value in hun2race.py
-
+1. Access Google BARD.
+2. Sign in to your account.
+3. View cookies and copy the value of `__Secure-1PSID`.
+4. Insert this value into `hun2race.py`.
 
 # LaTeX
-You must have LateX installed on your machine 
 
-## APT 
-`sudo apt-get install texlive-full`
+LaTeX must be installed on your machine for this tool to work.
 
-## PACMAN 
-`sudo pacman -S texlive-most`
+## APT
 
-## MAC 
-`brew install basictex` 
+Run: `$ sudo apt-get install texlive-full`
 
-## WINDOWS 
-`choco install texlive`
+## PACMAN
 
+Run: `$ sudo pacman -S texlive-most`
 
-# Contibutions 
-Feel free to contact me 
-at sudobyter@gmail.com 
-for any suggestions, developement or issues 
+## MAC
 
+Run: `$ brew install basictex`
+
+## WINDOWS
+
+Run: `$ choco install texlive`
+
+# Contributions
+
+Feel free to reach out at `sudobyter@gmail.com` for suggestions, development collaborations, or to report any issues.
