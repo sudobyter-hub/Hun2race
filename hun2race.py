@@ -11,6 +11,24 @@ os.environ["_BARD_API_KEY"] = ""
 # Set OpenAI API Key
 openai.api_key = ''
 
+#ASCII Art & Help Text
+print('''
+▒█░▒█ ▒█░▒█ ▒█▄░▒█ █▀█ ▒█▀▀█ ░█▀▀█ ▒█▀▀█ ▒█▀▀▀ 
+▒█▀▀█ ▒█░▒█ ▒█▒█▒█ ░▄▀ ▒█▄▄▀ ▒█▄▄█ ▒█░░░ ▒█▀▀▀ 
+▒█░▒█ ░▀▄▄▀ ▒█░░▀█ █▄▄ ▒█░▒█ ▒█░▒█ ▒█▄▄█ ▒█▄▄▄
+By : sudobyter 
+Usage : 
+        -f , report format (bugbounty, pentesting)
+        -v , vulnerability type 
+        -t , target site 
+        -P , PoC of the bug
+        -e , choice of description engine (bard or chatgpt)
+        example : 
+        python3 hun2race.py -f bugbounty -v IDOR -t attacker.com -P "Found IDOR on the following domain etc..." -e bard/chatgpt -i <url_img1> <url_img2>
+      ''')
+
+
+
 # LaTeX Template with Dynamic Image Placeholder
 BUG_BOUNTY_TEMPLATE = r"""
 \documentclass{{article}}
