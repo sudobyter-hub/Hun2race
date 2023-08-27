@@ -1,33 +1,20 @@
+import requests
+from urllib.parse import urlparse
 import argparse
 import subprocess
 from bardapi import Bard
 import os
-import openai  # Required for accessing ChatGPT API
+import openai
 
-# Bard API KEY
-os.environ["_BARD_API_KEY"] = "YOUR BARD API KEY"
+# Set Bard API KEY
+os.environ["_BARD_API_KEY"] = ""
 # Set OpenAI API Key
-openai.api_key = 'YOUR OPEN AI KEY'
+openai.api_key = ''
 
-# ASCII Art & Help Text
-print('''
-▒█░▒█ ▒█░▒█ ▒█▄░▒█ █▀█ ▒█▀▀█ ░█▀▀█ ▒█▀▀█ ▒█▀▀▀ 
-▒█▀▀█ ▒█░▒█ ▒█▒█▒█ ░▄▀ ▒█▄▄▀ ▒█▄▄█ ▒█░░░ ▒█▀▀▀ 
-▒█░▒█ ░▀▄▄▀ ▒█░░▀█ █▄▄ ▒█░▒█ ▒█░▒█ ▒█▄▄█ ▒█▄▄▄
-By : sudobyter 
-Usage : 
-        -f , report format (bugbounty, pentesting)
-        -v , vulnerability type 
-        -t , target site 
-        -P , PoC of the bug
-        -e , choice of description engine (bard or chatgpt)
-        example : 
-        python3 hun2race.py -f bugbounty -v IDOR -t attacker.com -P "Found IDOR on the following domain etc..." -e bard/chatgpt
-      ''')
-
-# LaTeX Template
+# LaTeX Template with Dynamic Image Placeholder
 BUG_BOUNTY_TEMPLATE = r"""
 \documentclass{{article}}
+\usepackage{{graphicx}}
 \begin{{document}}
 \title{{Bug Bounty Report}}
 \author{{Security Researcher}}
@@ -47,18 +34,59 @@ Host: {host}
 {impact_description}
 \section{{Recommendations}}
 {suggestions}
+\section{{Attachments}}
+{image_latex}
 \end{{document}}
 """
+
+
+def validate_image_url(url):
+    """ Validates if the URL points to an image """
+    parsed = urlparse(url)
+    for ext in ['.jpg', '.jpeg', '.png', '.gif']:
+        if parsed.path.endswith(ext):
+            return True
+    return False
+
+
+def download_image_from_url(url, save_path=None):
+    """ Downloads an image from a URL and saves it to a specified path """
+    if not validate_image_url(url):
+        raise ValueError(f"URL {url} does not seem to point to a valid image.")
+
+    response = requests.get(url, stream=True)
+    response.raise_for_status()
+
+    if not save_path:
+        save_path = url.split("/")[-1]
+
+    with open(save_path, 'wb') as file:
+        for chunk in response.iter_content(chunk_size=8192):
+            file.write(chunk)
+
+    return save_path
+
 
 def get_description_from_bard(prompt):
     bard_response = Bard().get_answer(str(prompt))
     return bard_response.get('content')
 
+
 def get_description_from_chatgpt(prompt):
     response = openai.Completion.create(model="text-davinci-002", prompt=prompt, max_tokens=2500)
     return response.choices[0].text.strip()
 
-def generate_latex_report(format_type, vulnerability_type, target, vulnerability_desc, proof_of_concept, impact_description, suggestions):
+
+def generate_image_latex_code(image_paths):
+    """Generates LaTeX code to embed multiple images."""
+    image_latex = ""
+    for path in image_paths:
+        image_latex += r"\includegraphics[width=\linewidth]{" + path + "}\n\\newpage\n"
+    return image_latex
+
+
+def generate_latex_report(format_type, vulnerability_type, target, vulnerability_desc, proof_of_concept,
+                          impact_description, suggestions, image_latex=""):
     if format_type == 'bug_bounty':
         template = BUG_BOUNTY_TEMPLATE
     else:
@@ -70,9 +98,11 @@ def generate_latex_report(format_type, vulnerability_type, target, vulnerability
         vulnerability_desc=vulnerability_desc,
         proof_of_concept=proof_of_concept,
         impact_description=impact_description,
-        suggestions=suggestions
+        suggestions=suggestions,
+        image_latex=image_latex
     )
     return report
+
 
 def main():
     parser = argparse.ArgumentParser(description='Security Research Report Generator')
@@ -80,7 +110,10 @@ def main():
     parser.add_argument('-v', '--vulnerability', required=True, help='Type of vulnerability')
     parser.add_argument('-t', '--target', required=True, help='Host where the vulnerability was found')
     parser.add_argument('-P', '--poc', required=True, help='PoC of the bug')
-    parser.add_argument('-e', '--engine', choices=['bard', 'chatgpt'], required=True, help='Choice of description engine')
+    parser.add_argument('-e', '--engine', choices=['bard', 'chatgpt'], required=True,
+                        help='Choice of description engine')
+    parser.add_argument('-i', '--images', nargs='*', help='URLs of the images to include in the report', default=[])
+
     args = parser.parse_args()
 
     # Generate the prompts
@@ -98,20 +131,40 @@ def main():
         impact_description = get_description_from_chatgpt(impact_description_prompt)
         suggestions = get_description_from_chatgpt(suggestions_prompt)
 
-    latex_report = generate_latex_report(args.format, args.vulnerability, args.target, vulnerability_desc, args.poc, impact_description, suggestions)
+    image_paths = []
+    for img_url in args.images:
+        try:
+            image_path = download_image_from_url(img_url)
+            image_paths.append(image_path)
+            print(f"Image downloaded from {img_url} and saved as {image_path}")
+        except Exception as e:
+            print(f"Error downloading image from {img_url}: {e}")
+            return
 
-    # Save the LaTeX report to a .tex file
+    if not image_paths:
+        print("No valid images provided. The Attachments section will not be included.")
+    else:
+        image_latex_code = generate_image_latex_code(image_paths)
+
+    latex_report = generate_latex_report(args.format, args.vulnerability, args.target, vulnerability_desc, args.poc,
+                                         impact_description, suggestions, image_latex=image_latex_code)
+
     with open('security_report.tex', 'w') as f:
         f.write(latex_report)
 
     print("LaTeX report generated successfully.")
 
-    # Compile LaTeX report into PDF
+    # Compile LaTeX report to PDF and display any errors
     try:
-        subprocess.run(['pdflatex', "security_report.tex"])
-        print("YAY! PDF report generated successfully.")
-    except subprocess.CalledProcessError:
-        print("Error occurred while compiling LaTeX to PDF.")
+        result = subprocess.run(['pdflatex', "security_report.tex"], capture_output=True, text=True)
+        if result.returncode != 0:
+            print("Error occurred while compiling LaTeX to PDF.")
+            print(result.stderr)
+        else:
+            print("PDF report generated successfully.")
+    except Exception as e:
+        print(f"Error during LaTeX compilation: {e}")
+
 
 if __name__ == '__main__':
     main()
