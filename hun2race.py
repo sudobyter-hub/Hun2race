@@ -2,12 +2,12 @@ import argparse
 import subprocess
 from bardapi import Bard
 import os
-import openai  
+import openai  # Required for accessing ChatGPT API
 
 # Bard API KEY
-os.environ["_BARD_API_KEY"] = "Your Bard API Key"
+os.environ["_BARD_API_KEY"] = "YOUR BARD API KEY"
 # Set OpenAI API Key
-openai.api_key = 'Your OPENAI API KEY'
+openai.api_key = 'YOUR OPEN AI KEY'
 
 # ASCII Art & Help Text
 print('''
@@ -55,7 +55,7 @@ def get_description_from_bard(prompt):
     return bard_response.get('content')
 
 def get_description_from_chatgpt(prompt):
-    response = openai.Completion.create(model="text-davinci-002", prompt=prompt, max_tokens=500)
+    response = openai.Completion.create(model="text-davinci-002", prompt=prompt, max_tokens=2500)
     return response.choices[0].text.strip()
 
 def generate_latex_report(format_type, vulnerability_type, target, vulnerability_desc, proof_of_concept, impact_description, suggestions):
