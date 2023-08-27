@@ -18,11 +18,7 @@ print('''
 ▒█░▒█ ░▀▄▄▀ ▒█░░▀█ █▄▄ ▒█░▒█ ▒█░▒█ ▒█▄▄█ ▒█▄▄▄
 By : sudobyter 
 Usage : 
-        -f , report format (bugbounty, pentesting)
-        -v , vulnerability type 
-        -t , target site 
-        -P , PoC of the bug
-        -e , choice of description engine (bard or chatgpt)
+        -h for help 
         example : 
         python3 hun2race.py -f bugbounty -v IDOR -t attacker.com -P "Found IDOR on the following domain etc..." -e bard/chatgpt -i <url_img1> <url_img2>
       ''')
@@ -127,12 +123,26 @@ def main():
     parser.add_argument('-f', '--format', choices=['bug_bounty', 'pentesting'], required=True, help='Report format')
     parser.add_argument('-v', '--vulnerability', required=True, help='Type of vulnerability')
     parser.add_argument('-t', '--target', required=True, help='Host where the vulnerability was found')
-    parser.add_argument('-P', '--poc', required=True, help='PoC of the bug')
-    parser.add_argument('-e', '--engine', choices=['bard', 'chatgpt'], required=True,
-                        help='Choice of description engine')
+    parser.add_argument('-P', '--poc', help='PoC of the bug')
+    parser.add_argument('-Pf', '--poc-file', help='File containing the PoC of the bug')
+    parser.add_argument('-e', '--engine', choices=['bard', 'chatgpt'], required=True, help='Choice of description engine')
     parser.add_argument('-i', '--images', nargs='*', help='URLs of the images to include in the report', default=[])
 
     args = parser.parse_args()
+    # Validate that either -P or -Pf is provided, but not both
+    if not args.poc and not args.poc_file:
+        print("Error: Either PoC (-P) or PoC file (-Pf) must be provided.")
+        return
+    elif args.poc and args.poc_file:
+        print("Error: Both PoC (-P) and PoC file (-Pf) cannot be provided at the same time.")
+        return
+
+    # If PoC is provided via a file, read the content of the file
+    if args.poc_file:
+        with open(args.poc_file, 'r') as f:
+            poc_content = f.read()
+    else:
+        poc_content = args.poc
 
     # Generate the prompts
     vulnerability_desc_prompt = f"describe the following bug {args.vulnerability} with details to technical and non technical people"
@@ -149,23 +159,21 @@ def main():
         impact_description = get_description_from_chatgpt(impact_description_prompt)
         suggestions = get_description_from_chatgpt(suggestions_prompt)
 
-    image_paths = []
-    for img_url in args.images:
-        try:
-            image_path = download_image_from_url(img_url)
-            image_paths.append(image_path)
-            print(f"Image downloaded from {img_url} and saved as {image_path}")
-        except Exception as e:
-            print(f"Error downloading image from {img_url}: {e}")
-            return
+    image_latex_code = ""
+    if args.images:
+        image_paths = []
+        for img_url in args.images:
+            try:
+                image_path = download_image_from_url(img_url)
+                image_paths.append(image_path)
+                print(f"Image downloaded from {img_url} and saved as {image_path}")
+            except Exception as e:
+                print(f"Error downloading image from {img_url}: {e}")
+                return
+        if image_paths:
+            image_latex_code = generate_image_latex_code(image_paths)
 
-    if not image_paths:
-        print("No valid images provided. The Attachments section will not be included.")
-    else:
-        image_latex_code = generate_image_latex_code(image_paths)
-
-    latex_report = generate_latex_report(args.format, args.vulnerability, args.target, vulnerability_desc, args.poc,
-                                         impact_description, suggestions, image_latex=image_latex_code)
+    latex_report = generate_latex_report(args.format, args.vulnerability, args.target, vulnerability_desc, poc_content, impact_description, suggestions, image_latex=image_latex_code)
 
     with open('security_report.tex', 'w') as f:
         f.write(latex_report)
