@@ -1,6 +1,6 @@
 # Hun2race
 ![](hun2race.gif)
-Hun2race is an automated report generation tool designed for bug hunters and penetration testers. The tool utilizes GOOGLE BARD to produce responses, accelerating report creation. Additionally, it leverages LaTeX to create templates, enabling the generation of PDFs.
+Hun2race is an automated report generation tool designed for bug hunters and penetration testers. The tool utilizes GOOGLE BARD / CHATGPT to produce responses, accelerating report creation. Additionally, it leverages LaTeX to create templates, enabling the generation of PDFs.
 
 Note: This tool is currently in its beta version.
 
@@ -12,6 +12,12 @@ Note: This tool is currently in its beta version.
 - Ensure `LaTeX` is installed on your machine.
 - Execute the tool: `python3 hun2race.py -f bug_bounty -v idor -t attacker.com -P "Insert your PoC here"`
 - Upon completion, you'll find the report, ready to be submitted, in your directory.
+
+
+# CHATGPT key 
+1. Access your OPENAPI account
+2. Create New key (save the key in safe place)
+3. Copy and replace the key in the following file `hun2race.py` 
 
 
 # Google BARD key
