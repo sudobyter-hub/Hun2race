@@ -47,6 +47,10 @@ Run: `$ brew install basictex`
 
 Run: `$ choco install texlive`
 
+# Support 
+
+If you are having any issues you may contact me on Twitter : [@aliwaleedhum](https://www.twitter.com/aliwaleedhum) 
+
 # Contributions
 
 Feel free to reach out at `sudobyter@gmail.com` for suggestions, development collaborations, or to report any issues.
