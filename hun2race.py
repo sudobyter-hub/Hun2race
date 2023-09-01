@@ -1,19 +1,17 @@
-import requests
-from urllib.parse import urlparse
 import argparse
 import subprocess
 from modules.engines.google_bard import GoogleBard
 from modules.engines.openai_chatgpt import OpenaiChatgpt
 from modules.documentors.latex import Latex
 from modules.documentors.template import Template
-from modules.documentors.image_provider import ImageProvider
+from dotenv import load_dotenv
 import os
-import openai
+load_dotenv()
 
 # Set API keys
 api_keys = {
-    "bard": '',
-    "chatgpt": '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'
+    "bard": os.getenv("GOOGLE_BARD_API_KEY"),
+    "open_ai": os.getenv("OPENAI_API_KEY")
 }
 
 #ASCII Art & Help Text
@@ -91,7 +89,7 @@ def main():
         vulnerability_desc, impact_description, suggestions = bard.get_contents()
 
     elif args.engine == 'chatgpt':
-        chatgpt = OpenaiChatgpt(args.vulnerability, api_keys['chatgpt'])
+        chatgpt = OpenaiChatgpt(args.vulnerability, api_keys['open_ai'])
         vulnerability_desc, impact_description, suggestions = chatgpt.get_contents()
 
     latex = Latex(args.use_case, args.vulnerability, args.target, vulnerability_desc, poc_content, impact_description, suggestions, args.images_urls)
