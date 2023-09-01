@@ -97,7 +97,7 @@ def main():
     latex_images = ""
     if args.images:
         latex_images = ImageProvider().get_images_from_urls(args.images)
-    latex = Latex(args.use_case, args.vulnerability, args.target, vulnerability_desc, poc_content, impact_description, suggestions, latex_images, False)
+    latex = Latex(args.use_case, args.vulnerability, args.target, vulnerability_desc, poc_content, impact_description, suggestions, latex_images)
 
     latex_report = latex.generate_report()
 
