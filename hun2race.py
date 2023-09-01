@@ -2,9 +2,11 @@ import requests
 from urllib.parse import urlparse
 import argparse
 import subprocess
-from bardapi import Bard
 from modules.engines.google_bard import GoogleBard
 from modules.engines.openai_chatgpt import OpenaiChatgpt
+from modules.documentors.latex import Latex
+from modules.documentors.template import Template
+from modules.documentors.image_provider import ImageProvider
 import os
 import openai
 
@@ -57,62 +59,9 @@ Host: {host}
 """
 
 
-def validate_image_url(url):
-    """ Validates if the URL points to an image """
-    parsed = urlparse(url)
-    for ext in ['.jpg', '.jpeg', '.png', '.gif']:
-        if parsed.path.endswith(ext):
-            return True
-    return False
-
-
-def download_image_from_url(url, save_path=None):
-    """ Downloads an image from a URL and saves it to a specified path """
-    if not validate_image_url(url):
-        raise ValueError(f"URL {url} does not seem to point to a valid image.")
-
-    response = requests.get(url, stream=True)
-    response.raise_for_status()
-
-    if not save_path:
-        save_path = url.split("/")[-1]
-
-    with open(save_path, 'wb') as file:
-        for chunk in response.iter_content(chunk_size=8192):
-            file.write(chunk)
-
-    return save_path
-
-def generate_image_latex_code(image_paths):
-    """Generates LaTeX code to embed multiple images."""
-    image_latex = ""
-    for path in image_paths:
-        image_latex += r"\includegraphics[width=\linewidth]{" + path + "}\n\\newpage\n"
-    return image_latex
-
-
-def generate_latex_report(format_type, vulnerability_type, target, vulnerability_desc, proof_of_concept,
-                          impact_description, suggestions, image_latex=""):
-    if format_type == 'bug_bounty':
-        template = BUG_BOUNTY_TEMPLATE
-    else:
-        raise ValueError('Invalid report format')
-
-    report = template.format(
-        vulnerability=vulnerability_type,
-        host=target,
-        vulnerability_desc=vulnerability_desc,
-        proof_of_concept=proof_of_concept,
-        impact_description=impact_description,
-        suggestions=suggestions,
-        image_latex=image_latex
-    )
-    return report
-
-
 def main():
     parser = argparse.ArgumentParser(description='Security Research Report Generator')
-    parser.add_argument('-f', '--format', choices=['bug_bounty', 'pentesting'], required=True, help='Report format')
+    parser.add_argument('-uc', '--use-case', choices=Template().get_available_templates(), required=True, help='Report format')
     parser.add_argument('-v', '--vulnerability', required=True, help='Type of vulnerability')
     parser.add_argument('-t', '--target', required=True, help='Host where the vulnerability was found')
     parser.add_argument('-P', '--poc', help='PoC of the bug')
@@ -145,22 +94,12 @@ def main():
         chatgpt = OpenaiChatgpt(args.vulnerability, api_keys['chatgpt'])
         vulnerability_desc, impact_description, suggestions = chatgpt.get_contents()
 
-
-    image_latex_code = ""
+    latex_images = ""
     if args.images:
-        image_paths = []
-        for img_url in args.images:
-            try:
-                image_path = download_image_from_url(img_url)
-                image_paths.append(image_path)
-                print(f"Image downloaded from {img_url} and saved as {image_path}")
-            except Exception as e:
-                print(f"Error downloading image from {img_url}: {e}")
-                return
-        if image_paths:
-            image_latex_code = generate_image_latex_code(image_paths)
+        latex_images = ImageProvider().get_images_from_urls(args.images)
+    latex = Latex(args.use_case, args.vulnerability, args.target, vulnerability_desc, poc_content, impact_description, suggestions, latex_images, False)
 
-    latex_report = generate_latex_report(args.format, args.vulnerability, args.target, vulnerability_desc, poc_content, impact_description, suggestions, image_latex=image_latex_code)
+    latex_report = latex.generate_report()
 
     with open('security_report.tex', 'w') as f:
         f.write(latex_report)
