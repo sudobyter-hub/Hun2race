@@ -67,7 +67,7 @@ def main():
     parser.add_argument('-P', '--poc', help='PoC of the bug')
     parser.add_argument('-Pf', '--poc-file', help='File containing the PoC of the bug')
     parser.add_argument('-e', '--engine', choices=['bard', 'chatgpt'], required=True, help='Choice of description engine')
-    parser.add_argument('-i', '--images', nargs='*', help='URLs of the images to include in the report', default=[])
+    parser.add_argument('-mu', '--images-urls', nargs='*', help='URLs of the images to include in the report', default=[])
 
     args = parser.parse_args()
     # Validate that either -P or -Pf is provided, but not both
@@ -94,7 +94,7 @@ def main():
         chatgpt = OpenaiChatgpt(args.vulnerability, api_keys['chatgpt'])
         vulnerability_desc, impact_description, suggestions = chatgpt.get_contents()
 
-    latex = Latex(args.use_case, args.vulnerability, args.target, vulnerability_desc, poc_content, impact_description, suggestions, args.images)
+    latex = Latex(args.use_case, args.vulnerability, args.target, vulnerability_desc, poc_content, impact_description, suggestions, args.images_urls)
 
     latex_report = latex.generate_report()
 
