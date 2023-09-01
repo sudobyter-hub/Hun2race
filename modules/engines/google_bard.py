@@ -8,11 +8,6 @@ class GoogleBard(NlpEngine):
     def __init__(self, vulnerability, api_key):
         super().__init__(vulnerability)
         self.bard = Bard()
-        self.prompts = {
-            "vulnerability_description": f"describe the following bug {vulnerability} with details to technical and non technical people",
-            "impact_description": f"what is the impact of this {vulnerability} and how it might affect the company",
-            "suggestions": f"what do you suggest to fix this {vulnerability} write full details"
-        }
         os.environ["_BARD_API_KEY"] = api_key
 
     def __get_vulnerability_description(self):
