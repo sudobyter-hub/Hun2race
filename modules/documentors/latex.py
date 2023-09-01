@@ -3,7 +3,7 @@ from modules.documentors.image_provider import ImageProvider
 
 class Latex:
     def __init__(self, use_case, vulnerability_type, targeted_domain, vulnerability_desc, proof_of_concept,
-                 impact_description, suggestions, images_urls):
+                 impact_description, suggestions, images_urls, images_directory):
         self.use_case = use_case
         self.vulnerability_type = vulnerability_type
         self.targeted_domain = targeted_domain
@@ -12,6 +12,7 @@ class Latex:
         self.impact_desc = impact_description
         self.suggestions = suggestions
         self.images_urls = images_urls
+        self.images_directory = images_directory
 
     def attach_images(self):
         """Generates LaTeX code to embed multiple images."""
@@ -19,6 +20,8 @@ class Latex:
         images_paths = []
         if self.images_urls:
             images_paths += ImageProvider().get_images_from_urls(self.images_urls)
+        if self.images_directory:
+            images_paths += ImageProvider().fetch_images_from_directory()
         for path in images_paths:
             image_latex += r"\includegraphics[width=\linewidth]{" + path + "}\n\\newpage\n"
         return image_latex
