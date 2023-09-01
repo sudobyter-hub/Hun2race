@@ -3,13 +3,16 @@ from urllib.parse import urlparse
 import argparse
 import subprocess
 from bardapi import Bard
+from modules.engines.google_bard import GoogleBard
+from modules.engines.openai_chatgpt import OpenaiChatgpt
 import os
 import openai
 
-# Set Bard API KEY
-os.environ["_BARD_API_KEY"] = ""
-# Set OpenAI API Key
-openai.api_key = ''
+# Set API keys
+api_keys = {
+    "bard": '',
+    "chatgpt": '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'
+}
 
 #ASCII Art & Help Text
 print('''
@@ -20,7 +23,7 @@ By : sudobyter
 Usage : 
         -h for help 
         example : 
-        python3 hun2race.py -f bugbounty -v IDOR -t attacker.com -P "Found IDOR on the following domain etc..." -e bard/chatgpt -i <url_img1> <url_img2>
+        python3 hun2race.py -f bug_bounty -v IDOR -t attacker.com -P "Found IDOR on the following domain etc..." -e bard/chatgpt -i <url_img1> <url_img2>
       ''')
 
 
@@ -80,17 +83,6 @@ def download_image_from_url(url, save_path=None):
 
     return save_path
 
-
-def get_description_from_bard(prompt):
-    bard_response = Bard().get_answer(str(prompt))
-    return bard_response.get('content')
-
-
-def get_description_from_chatgpt(prompt):
-    response = openai.Completion.create(model="text-davinci-002", prompt=prompt, max_tokens=2500)
-    return response.choices[0].text.strip()
-
-
 def generate_image_latex_code(image_paths):
     """Generates LaTeX code to embed multiple images."""
     image_latex = ""
@@ -144,20 +136,15 @@ def main():
     else:
         poc_content = args.poc
 
-    # Generate the prompts
-    vulnerability_desc_prompt = f"describe the following bug {args.vulnerability} with details to technical and non technical people"
-    impact_description_prompt = f"what is the impact of this {args.vulnerability} and how it might affect the company"
-    suggestions_prompt = f"what do you suggest to fix this {args.vulnerability} write full details"
-
     # Use either bard or chatgpt based on the user's choice
     if args.engine == 'bard':
-        vulnerability_desc = get_description_from_bard(vulnerability_desc_prompt)
-        impact_description = get_description_from_bard(impact_description_prompt)
-        suggestions = get_description_from_bard(suggestions_prompt)
+        bard = GoogleBard(args.vulnerability, api_keys['bard'])
+        vulnerability_desc, impact_description, suggestions = bard.get_contents()
+
     elif args.engine == 'chatgpt':
-        vulnerability_desc = get_description_from_chatgpt(vulnerability_desc_prompt)
-        impact_description = get_description_from_chatgpt(impact_description_prompt)
-        suggestions = get_description_from_chatgpt(suggestions_prompt)
+        chatgpt = OpenaiChatgpt(args.vulnerability, api_keys['chatgpt'])
+        vulnerability_desc, impact_description, suggestions = chatgpt.get_contents()
+
 
     image_latex_code = ""
     if args.images:
