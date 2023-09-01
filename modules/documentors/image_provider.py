@@ -15,7 +15,7 @@ class ImageProvider:
             paths.append(self.download_image(url))
         return paths
 
-    def download_image(self, url, save_path=None):
+    def download_image(self, url, save_path="downloaded_images"):
         """ Downloads an image from a URL and saves it to a specified path """
         if not self.validate_image_url(url):
             raise ValueError(f"URL {url} does not seem to point to a valid image.")
@@ -23,8 +23,7 @@ class ImageProvider:
         response = requests.get(url, stream=True)
         response.raise_for_status()
 
-        if not save_path:
-            save_path = url.split("/")[-1]
+        save_path = os.path.join(os.getcwd(), save_path, os.path.basename(urlparse(url).path))
 
         with open(save_path, 'wb') as file:
             for chunk in response.iter_content(chunk_size=8192):
