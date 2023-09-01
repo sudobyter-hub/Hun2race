@@ -1,3 +1,5 @@
+import os
+
 class Template:
     def __init__(self):
         pass
@@ -10,7 +12,8 @@ class Template:
 
     def get_template(self, template_name):
         try:
-            return open(f"modules/documentors/templates/{template_name}.txt", "r").read()
+            path = os.path.join(os.getcwd(), "modules", "documentors", "templates", f"{template_name}.txt")
+            return open(path, "r").read()
         except FileNotFoundError:
             print(f"Template {template_name} not found.")
             return None
