@@ -6,6 +6,29 @@
 
 > 🚨 **Heads up!** This tool is still in its beta phase, so tread with excitement and caution!
 
+# 📚 Table of Contents
+
+1. [Hun2race Overview](#-hun2race)
+2. [Getting Started](#-getting-started)
+   - [Set Up](#set-up)
+   - [Prep Up](#prep-up)
+   - [Tweak](#tweak)
+   - [LaTeX Love](#latex-love)
+   - [Action Time](#action-time)
+   - [Voilà!](#voilà)
+3. [Keys to the Kingdom](#-keys-to-the-kingdom)
+   - [CHATGPT Key](#chatgpt-key-)
+   - [Google BARD Key](#google-bard-key-)
+4. [Setting Up LaTeX](#-setting-up-latex)
+   - [For APT Magicians](#for-the-apt-magicians-ubuntudebian-)
+   - [For PACMAN Enthusiasts](#for-the-pacman-enthusiasts-arch-linuxmanjaro-)
+   - [For MAC Admirers](#for-the-mac-admirers-)
+   - [For WINDOWS Warriors](#for-the-windows-warriors-)
+5. [Need Help?](#-need-help)
+6. [Join the Quest!](#-join-the-quest)
+
+
+
 ## 🚀 Getting Started
 
 1. **Set Up**: Begin your journey by cloning the repository:
