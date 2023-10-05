@@ -43,23 +43,50 @@
 
 ## 📖 Setting Up LaTeX 
 
-**LaTeX** is the soul of Hun2race. Ensure it's with you!
+**LaTeX** is the foundation of Hun2race. It's essential for creating those stunning PDFs. If you're new to LaTeX or haven't installed it yet, don't worry! Here's a step-by-step guide tailored just for you:
 
-- **For the APT magicians**: 🧙
+### For the APT Magicians (Ubuntu/Debian) 🧙
 
-`sudo apt-get install texlive-full`
+1. **Open Terminal**: You can do this by pressing `Ctrl` + `Alt` + `T` simultaneously.
+2. **Update Repositories**: It's always good to get the latest updates:
+   ```bash
+   sudo apt-get update
+   ```
+3. **Install LaTeX**: Use the following command to install the full LaTeX suite:
+   ```bash
+   sudo apt-get install texlive-full
+   ```
 
+### For the PACMAN Enthusiasts (Arch Linux/Manjaro) 🕹️
 
-- **For the PACMAN enthusiasts**: 🕹️
-`sudo pacman -S texlive-most`
+1. **Open Terminal**: You can do this via your application menu or launcher.
+2. **Install LaTeX**: Get the most out of LaTeX with this:
+   ```bash
+   sudo pacman -S texlive-most
+   ```
 
+### For the MAC Admirers 🍎
 
-- **For the MAC admirers**: 🍎
-`brew install basictex`
+1. **Open Terminal**: You can find this in `Applications/Utilities` or simply use Spotlight to search for it.
+2. **Install Homebrew** (if not installed): Homebrew is a package manager for macOS. Install it using:
+   ```bash
+   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+   ```
+3. **Install LaTeX**:
+   ```bash
+   brew install basictex
+   ```
 
+### For the WINDOWS Warriors 🪟
 
-- **For the WINDOWS warriors**: 🪟
-`choco install texlive`
+1. **Open Command Prompt** (CMD) or PowerShell.
+2. **Install Chocolatey** (if not installed): Chocolatey is a package manager for Windows. Install it by following instructions at [Chocolatey's installation page](https://chocolatey.org/install).
+3. **Install LaTeX**: Once Chocolatey is ready, use this:
+   ```bash
+   choco install texlive
+   ```
+
+Remember, after installing LaTeX, you might need to restart your terminal or even your computer for some changes to take effect. Now, you're all set to let Hun2race weave its magic! 🌟
 
 
 ## 📞 Need Help? 
