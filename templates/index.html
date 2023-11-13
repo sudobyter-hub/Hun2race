@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Hun2race</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
+</head>
+
+<body>
+    <div class="svg-container">
+            <img src="{{ url_for('static', filename='images/hun2race-logo.png') }}"
+                alt="Hacker Logo">
+    </div>
+<div class="container">
+    <h1 class="title">Hun2race</h1>
+
+    <form method="post" enctype="multipart/form-data">
+ <!--       <label for="vuln_name">Scope:</label>
+        <input type="text" name="scope" required><br>--> 
+
+        <label for="vuln_name">Vulnerability Name:</label>
+        <input type="text" name="vuln_name" required><br>
+
+
+        <label for="hostname">Hostname/FQDN:</label>
+        <input type="text" name="hostname" required><br>
+
+
+        <label for="poc">Proof of Concept (Steps):</label>
+        <textarea name="poc" required></textarea><br>
+
+        <label for="media" class="custom-file-upload">Media (optional, you can select many):</label>
+    <input id="file-upload" type="file" name="media" multiple><br>
+
+        <label for="engine">Choose Engine:</label>
+        <select name="engine">
+            <option value="davinci">GPT-3 Davinci</option>
+        </select><br>
+
+        <input type="submit" value="Generate Report" class="submit-btn">
+    </form>
+        </div>
+</body>
+
+</html>
