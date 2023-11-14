@@ -36,7 +36,7 @@ Contribute to `hun2race` and help make the internet a safer place for everyone! 
 
 ## License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+Distributed under the GPL License. See `LICENSE` for more information.
 
 ## Contact
 
