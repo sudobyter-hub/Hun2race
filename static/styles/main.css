@@ -22,14 +22,18 @@ body, html {
 @keyframes gradient-animation {
     0% {
         background-position: 0% 50%;
+        filter: hue-rotate(180deg); /* Start with purple */
     }
     50% {
         background-position: 100% 50%;
+        filter: hue-rotate(240deg); /* Transition to blue */
     }
     100% {
         background-position: 0% 50%;
+        filter: hue-rotate(180deg); /* Return to purple */
     }
 }
+
 
 .center-container {
     display: flex;
