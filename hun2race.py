@@ -65,6 +65,7 @@ def main():
     parser.add_argument('-P', '--poc', help='PoC of the bug')
     parser.add_argument('-Pf', '--poc-file', help='File containing the PoC of the bug')
     parser.add_argument('-e', '--engine', choices=['bard', 'chatgpt'], required=True, help='Choice of description engine')
+    parser.add_argument('-md', '--images-directory', help='Directory containing the images to include in the report', action='store_true')
     parser.add_argument('-mu', '--images-urls', nargs='*', help='URLs of the images to include in the report', default=[])
 
     args = parser.parse_args()
@@ -92,7 +93,7 @@ def main():
         chatgpt = OpenaiChatgpt(args.vulnerability, api_keys['open_ai'])
         vulnerability_desc, impact_description, suggestions = chatgpt.get_contents()
 
-    latex = Latex(args.use_case, args.vulnerability, args.target, vulnerability_desc, poc_content, impact_description, suggestions, args.images_urls)
+    latex = Latex(args.use_case, args.vulnerability, args.target, vulnerability_desc, poc_content, impact_description, suggestions, args.images_urls, args.images_directory)
 
     latex_report = latex.generate_report()
 

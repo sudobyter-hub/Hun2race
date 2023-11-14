@@ -38,3 +38,12 @@ class ImageProvider:
             if parsed.path.endswith(ext):
                 return True
         return False
+
+    def fetch_images_from_directory(self):
+        """ Fetches all images from a directory """
+        paths = []
+        images_directory = os.path.join(os.getcwd(), "images")
+        for filename in os.listdir(images_directory):
+            if filename.endswith(".jpg") or filename.endswith(".png") or filename.endswith(".gif") or filename.endswith(".jpeg"):
+                paths.append(os.path.join(images_directory, filename))
+        return paths
