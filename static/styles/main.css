@@ -34,7 +34,6 @@ body, html {
     }
 }
 
-
 .center-container {
     display: flex;
     flex-direction: column;
@@ -60,6 +59,16 @@ body, html {
     margin-top: 20px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     width: 80%; /* Adjust the width here to make the form wider */
+    animation: pulse 2s infinite alternate; /* Pulsating animation */
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(1.02);
+    }
 }
 
 .title {
