@@ -1,40 +1,86 @@
-/* static/styles/main.css */
+/* main.css */
 
-body {
-    background-color: #0f0f0f;
-    /* Dark background, reminiscent of a terminal */
-    color: #33ff33;
-    /* Classic green on black "hacker" theme */
-    font-family: 'Consolas', 'Courier New', Courier, monospace;
+* {
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 80%;
     margin: 0;
     padding: 0;
+    font-family: 'Consolas', 'Courier New', Courier, monospace;
+    color: #33ff33;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
+    background: linear-gradient(45deg, #000, #333, #000, #333);
+    background-size: 400% 400%;
+    animation: gradient-animation 10s linear infinite;
+    border-radius: 15px;
 }
 
-h1 {
+@keyframes gradient-animation {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.center-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.svg-container {
+    width: 80%;
+}
+
+.svg-container img {
+    max-width: 100%;
+    height: auto;
+    max-height: 300px; /* You can adjust this value to control the image height */
+}
+
+/* Adjust the width and padding of the form */
+.form-container {
+    background: #202020;
+    padding: 30px; /* Adjust the padding here */
+    border-radius: 15px;
+    margin-top: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    width: 80%; /* Adjust the width here to make the form wider */
+}
+
+.title {
     color: #33ff33;
-    /* Bright green for that neon glow effect */
     text-shadow: 0 0 8px #33ff33;
-    /* Soft glow around headers */
+    margin-bottom: 30px;
 }
 
 input[type="text"],
 textarea,
 select {
     background-color: #1c1c1c;
-    /* A shade lighter than body for contrast */
     border: 1px solid #33ff33;
-    /* Classic hacker green border */
     color: #33ff33;
     padding: 12px;
     margin: 8px 0;
     width: 100%;
-    box-sizing: border-box;
     border-radius: 8px;
-    /* Rounded corners for modern look */
+}
+
+/* Style the file input container */
+.file-input-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 input[type="file"] {
@@ -44,7 +90,8 @@ input[type="file"] {
     padding: 10px;
     margin: 8px 0;
     border-radius: 8px;
-   
+    cursor: pointer;
+    width: 100%; /* Set the width to 100% to fit within the container */
 }
 
 input[type="submit"] {
@@ -54,73 +101,82 @@ input[type="submit"] {
     border: none;
     border-radius: 8px;
     cursor: pointer;
+    transition: background-color 0.3s;
     box-shadow: 0 0 10px #33ff33;
-    transition: background-color 0.3s ease-in-out;
+    margin-top: 8px;
+    width: 100%;
 }
 
 input[type="submit"]:hover {
     background-color: #28cc28;
-    /* A lighter green for hover effect */
 }
 
 label {
+    display: block;
+    margin-top: 20px;
     color: #33ff33;
 }
 
-form {
-    width: 100%;
-    max-width: 500px;
-    padding: 20px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
-    border-radius: 12px;
-    /* More rounded corners for the form itself */
+textarea {
+    resize: vertical;
+    height: 100px;
 }
 
-.flash-success {
-    background-color: #33ff33;
-    color: #0f0f0f;
-    padding: 16px;
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    z-index: 999;
-    border-radius: 8px;
-    box-shadow: 0 0 10px #33ff33;
+@media (max-width: 768px) {
+    .form-container {
+        width: 100%;
+    }
 }
 
-/* Additional styles for centering the title and form */
-.container {
-    text-align: center;
-    /* Center align the container content */
-}
-
-.title {
-    margin-bottom: 30px;
-    /* Space between the title and the form */
-}
-
-form {
+.custom-file-upload {
+    border: 1px solid #33ff33;
     display: inline-block;
-    text-align: left;
-    /* Align form elements to the left */
+    padding: 6px 12px;
+    cursor: pointer;
+    border-radius: 8px;
+    margin-top: 20px;
+    background: #1c1c1c;
 }
 
-/* Style for the submit button */
-.submit-btn {
-    display: block;
-    /* Block display to fill the width of the form */
-    margin: 5px auto 0;
-    /* Auto margins for horizontal centering, 5px top margin */
-    padding-top: 5px;
-    /* 5px padding at the top */
+.hidden {
+    display: none;
+}
+
+:focus {
+    outline: 1px dashed #33ff33;
+    outline-offset: 2px;
+}
+
+input[type="text"]:focus,
+textarea:focus,
+select:focus {
+    animation: neon-glow 1s ease-in-out infinite alternate;
+}
+
+@keyframes neon-glow {
+    from {
+        box-shadow: 0 0 10px #33ff33, 0 0 20px #33ff33;
+    }
+    to {
+        box-shadow: 0 0 20px #33ff33, 0 0 30px #33ff33;
+    }
 }
 
 
-.svg-container {
-    display: block;
-    /* Block display to fit the width of its container */
-    text-align: center;
-    /* Center the SVG horizontally */
-    margin-bottom: 20px;
-    /* Space between the SVG and the title */
+input[type="reset"] {
+    background-color: #555; /* Grey color for reset button */
+    color: #fff; /* White text color */
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s; /* Add transition for background and transform */
+    box-shadow: 0 0 10px #555; /* Grey box shadow */
+    margin-top: 8px;
+    width: 100%;
+}
+
+input[type="reset"]:hover {
+    background-color: #777; /* Darker grey on hover */
+    transform: scale(1.05); /* Scale up the button on hover */
 }
