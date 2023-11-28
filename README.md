@@ -1,6 +1,8 @@
 ![Hun2raceLogo](hun2racelogo.png)
 
-
+<p align="center">
+  <a target="_blank"><img src="https://img.shields.io/badge/BlackHat--Arsenal--MEA-2023-blue.svg?logo=none" alt="" /></a>&nbsp;
+</p>
 # 🛠️ Hun2race 
 
 ![Hun2race](hun2race.gif)
