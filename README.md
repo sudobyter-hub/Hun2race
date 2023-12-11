@@ -1,5 +1,6 @@
-![Hun2raceLogo](hun2racelogo.png)
-
+<p align="center">
+  <img src="hun2racelogo.png" width="50" height="50" alt="Hun2raceLogo"/>
+</p>
 <p align="center">
   <a target="_blank"><img src="https://img.shields.io/badge/BlackHat--Arsenal--MEA-2023-blue.svg?logo=none" alt="" /></a>&nbsp;
 </p>
