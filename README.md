@@ -138,6 +138,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   <tbody>
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://abdulrahmansbq.dev/"><img src="https://avatars.githubusercontent.com/u/31943322?v=4" width="100px;" alt="Abdulrahman Alsubayq - عبدالرحمن السبيق"/><br /><sub><b>Abdulrahman Alsubayq - عبدالرحمن السبيق</b></sub></a><br /><a href="https://github.com/sudobyter-hub/Hun2race/commits?author=abdulrahmansbq" title="Code">💻</a></td>
+          <td align="center" valign="top" width="14.28%"><a href="https://aliwaleed.xyz"><img src="https://avatars.githubusercontent.com/u/82229642?s=400&u=f87cb600faa4bf9905df986c69e71ecafd8bb1ef&v=4" width="100px;" alt="Ali Alhumaid - علي آل حميد"/><br /><sub><b>Ali Alhumaid - علي آل حميد</b></sub></a><br /><a href="https://github.com/sudobyter-hub/Hun2race/commits?author=sudobyter-hub" title="Code">💻</a></td>
     </tr>
 
 
