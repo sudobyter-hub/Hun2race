@@ -127,6 +127,18 @@ Facing challenges? I'm here for you! Connect with me on Twitter 🐦: [@aliwalee
 Your insights are golden! 🌟 Reach out at `sudobyter@gmail.com` to sprinkle your magic, collaborate in our quest, or report any dragons (bugs) you might encounter! 🐉🔍
 
 
+## Contributors ✨
+
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://abdulrahmansbq.dev/"><img src="https://avatars.githubusercontent.com/u/31943322?v=4" width="100px;" alt="Abdulrahman Alsubayq - عبدالرحمن السبيق"/><br /><sub><b>Abdulrahman Alsubayq - عبدالرحمن السبيق</b></sub></a><br /><a href="https://github.com/sudobyter-hub/Hun2race/commits?author=abdulrahmansbq" title="Code">💻</a></td>
+    </tr>
 
 
 
